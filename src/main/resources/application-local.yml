@@ -39,8 +39,8 @@ spring:
 secret:
   jwt:
     key:
-      access: efee92bb5171dc91b7cf5652deecc69ed54f0ac7574078171db9531a6c13e7e53891a0afbdb2047399c60dd3
-      refresh: 114b4aa50131d806daec5322f7b4bb726727ac464ef61dfd8c1ddc3f11d2099b46ac29f94fd94cf1e985d3e2
+      access: KEY_ACCESS
+      refresh: KEY_REFRESH
     expiration:
       access: 600_000
       refresh: 604_800_000
