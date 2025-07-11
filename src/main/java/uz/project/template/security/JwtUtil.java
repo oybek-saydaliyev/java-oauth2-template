@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import uz.project.template.utils.ResMessages;
 
-import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,12 +48,12 @@ public class JwtUtil {
                 .compact();
     }
 
-    private String generateToken(Map<String, Object> extraClaims, String username, String key, Long expiration) {
+    private String generateToken(Map<String, Object> extraClaims, String email, String key, Long expiration) {
         Date now = new Date();
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(username)
+                .setSubject(email)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + expiration))
                 .signWith(getSignKey(key), SignatureAlgorithm.HS256)
@@ -72,7 +71,7 @@ public class JwtUtil {
     public String generateAccessToken(String refreshToken) {
         Claims claims = parseToken(refreshToken, refreshKey);
         if (claims.getExpiration().after(new Date())) {
-            String username = extractUsername(claims);
+            String username = this.extractEmail(claims);
             return generateToken(new HashMap<>(), username, jwtKey, expirationAccess);
         }
         throw new RuntimeException(ResMessages.TOKEN_VALIDATION_FAILED);
@@ -108,12 +107,12 @@ public class JwtUtil {
         }
     }
 
-    private String extractUsername(Claims claims) {
+    private String extractEmail(Claims claims) {
         return claims.getSubject();
     }
 
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         Claims claims = parseToken(token, jwtKey);
-        return extractUsername(claims);
+        return extractEmail(claims);
     }
 }

@@ -9,11 +9,13 @@ import uz.project.template.entity.AuthUserEntity;
 @Setter
 public class UserResponseDto extends BaseDto {
     private Long id;
-    private String username;
+    private String email;
+    private String fullName;
 
     public static UserResponseDto toDto(UserResponseDto dto, AuthUserEntity entity) {
         dto.setId(entity.getId());
-        dto.setUsername(entity.getUsername());
+        dto.setEmail(entity.getEmail());
+        dto.setFullName(entity.getFullName());
         return dto;
     }
 

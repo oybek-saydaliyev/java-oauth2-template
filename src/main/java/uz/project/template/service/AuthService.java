@@ -6,8 +6,6 @@ import java.util.HashMap;
 
 public interface AuthService {
 
-    HashMap<String, Object> login(UserDto dto);
-
     HashMap<String, Object> loginWithToken(String token);
 
     HashMap<String, Object> getMe(String accessToken);

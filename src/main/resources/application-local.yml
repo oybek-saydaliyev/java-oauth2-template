@@ -1,5 +1,5 @@
 server:
-  port: 5050
+  port: 7070
 
 spring:
   datasource:
@@ -11,11 +11,30 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
 
   #you can set your time zone and format
   jackson:
     time-zone: Asia/Tashkent
     date-format: yyyy-MM-dd HH:mm:ss
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: http://localhost:7070/login/oauth2/code/google
+            client-id: 1049163757663-ev5o7h3psv1oeit1cdhk7qngh8g7smnv.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+
 
 secret:
   jwt:

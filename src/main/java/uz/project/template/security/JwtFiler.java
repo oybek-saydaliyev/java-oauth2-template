@@ -7,17 +7,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import uz.project.template.entity.AuthUserEntity;
-import uz.project.template.repository.UserRepository;
 
 import java.io.IOException;
 
@@ -34,21 +29,21 @@ public class JwtFiler extends OncePerRequestFilter {
         try {
             String authorization = request.getHeader("Authorization");
             String token = null;
-            String username = null;
+            String email = null;
 
             if (authorization != null && authorization.startsWith("Bearer ")) {
                 token = authorization.substring(7);
                 try {
-                    username = jwtUtil.extractUsername(token);
+                    email = jwtUtil.extractEmail(token);
                 } catch (Exception e) {
                     log.debug("Failed to extract username from token: {}", e.getMessage());
                 }
             }
 
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 if (jwtUtil.validateAccessToken(token)) {
                     try {
-                        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
                         UsernamePasswordAuthenticationToken authenticationToken =
                                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -56,7 +51,7 @@ public class JwtFiler extends OncePerRequestFilter {
 
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     } catch (Exception e) {
-                        log.debug("Failed to load user details for username: {}", username);
+                        log.debug("Failed to load user details for username: {}", email);
                     }
                 }
             }

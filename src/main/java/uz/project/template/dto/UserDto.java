@@ -12,13 +12,15 @@ import uz.project.template.entity.AuthUserEntity;
 @Setter
 public class UserDto extends BaseDto{
     private Long id;
-    private String username;
+    private String email;
+    private String fullName;
     private String password;
 
 
     public static AuthUserEntity toEntity(UserDto dto, AuthUserEntity entity) {
         entity.setId(dto.getId());
-        entity.setUsername(dto.getUsername());
+        entity.setEmail(dto.getEmail());
+        entity.setFullName(dto.getFullName());
         entity.setPassword(dto.getPassword());
         entity.setRole("USER");
         return entity;

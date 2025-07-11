@@ -7,5 +7,5 @@ import java.util.Optional;
 
 
 public interface UserRepository extends BaseRepository<AuthUserEntity> {
-    Optional<AuthUserEntity> findByUsername(String username);
+    Optional<AuthUserEntity> findByEmail(String email);
 }

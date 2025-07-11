@@ -22,9 +22,9 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .info(new Info()
                         .title("API Documentation")
                         .version("1.0")
-                        .description("Spring Security API Documentation"))
+                        .description("Spring Security with OAuth2 API Documentation"))
                 .servers(List.of(
-                        new Server().url("http://localhost:5050").description("Local Server"),
+                        new Server().url("http://localhost:7070").description("Local Server"),
                         new Server().url("http://enter-your-prod-server-domen").description("Prod Server")))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth", new SecurityScheme()
@@ -32,7 +32,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
                                 .scheme("bearer")
                                 .bearerFormat("JWT")
                                 .in(SecurityScheme.In.HEADER)
-                                .name("Authorization")))
+                                .name("Authorization"))
+                        )
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
     }
 

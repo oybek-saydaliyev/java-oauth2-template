@@ -14,21 +14,10 @@ import java.util.HashMap;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
-    private final AuthService authService;
-
-    @PostMapping("/login")
-    public ResponseEntity<HashMap<String,Object>> login(@RequestBody UserDto dto) {
-        return ResponseEntity.ok(authService.login(dto));
-    }
-
-    @GetMapping("/login/token")
-    public ResponseEntity<HashMap<String,Object>> loginToken(@RequestParam String token) {
-        return ResponseEntity.ok(authService.loginWithToken(token));
-    }
-
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/get")
     public String getTest() {
         return "Success";
     }
+
 }
